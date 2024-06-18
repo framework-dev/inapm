@@ -14,18 +14,25 @@ export default {
       ]
     },
     {
-      name: "Prelims"
+      name: "Prelims",
+      pages: [
+        { name: "Epigraph", path: "/inapm1_epigraph" },
+        { name: "Preface", path: "/inapm1_preface" },
+      ]
     },
     {
       name: "Body",
       pages: [
-        { name: "Hypertext", path: "/inapm2_hypertext" }
+        { name: "Hypertext", path: "/inapm2_hypertext" },
+        { name: "Book Unbound", path: "/inapm2_bookunbound" },
+        { name: "Book Unbound - Live", path: "/inapm2_bookunbound_a" },
       ]
     },
     {
       name: "Aparatus",
       pages: [
-        { name: "Bibliography", path: "/inapm1_bibliography" }
+        { name: "Bibliography", path: "/inapm1_bibliography" },
+        { name: "About the Author", path: "/inapm1_authorbio" },
       ]
     }
   ],
