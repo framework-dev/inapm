@@ -6,6 +6,30 @@ export default {
   // The pages and sections in the sidebar. If you don’t specify this option,
   // all pages will be listed in alphabetical order. Listing pages explicitly
   // lets you organize them into sections and have unlisted pages.
+  pages: [
+    {
+      name: "Context",
+      pages: [
+        { name: "Prospectus", path: "/inapm0" }
+      ]
+    },
+    {
+      name: "Prelims"
+    },
+    {
+      name: "Body",
+      pages: [
+        { name: "Hypertext", path: "/inapm2_hypertext" }
+      ]
+    },
+    {
+      name: "Aparatus",
+      pages: [
+        { name: "Bibliography", path: "/inapm1_bibliography" }
+      ]
+    }
+  ],
+
   // pages: [
   //   {
   //     name: "Examples",
