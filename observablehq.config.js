@@ -29,7 +29,7 @@ export default {
       ]
     },
     {
-      name: "Aparatus",
+      name: "Apparatus",
       pages: [
         { name: "Bibliography", path: "/inapm1_bibliography" },
         { name: "About the Author", path: "/inapm1_authorbio" },
