@@ -6,4 +6,4 @@ import define from "https://api.observablehq.com/@shadoof/inapm2_bookunbound_a.j
 import { getNotebook } from "./components/getNotebook.js";
 getNotebook(define);
 ```
-<div id="notebook"></div>
+<div id="notebook-div"></div>
