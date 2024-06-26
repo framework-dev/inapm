@@ -1,9 +1,8 @@
+import Prism from 'https://cdn.jsdelivr.net/npm/prism-es6@1.2.0/prism.min.js'
 import { Runtime, Inspector } from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
 
-const parent = document.getElementById("notebook-div");
-parent.replaceChildren();
-
-function getNotebook(notebook) {
+function getNotebook(notebook, parent) {
+  parent.replaceChildren();
   new Runtime().module(notebook, name => {
 
     const container = document.createElement("div");
@@ -18,8 +17,16 @@ function getNotebook(notebook) {
       // console.log("name, value, type:", name, value, typeof value);
       if (typeof value === 'function') { // handle functions only
         const pre = document.createElement("pre");
-        pre.innerText = value.toString();
+        pre.className = 'language-javascript';
+        const code = document.createElement("code");
+        code.className = 'language-javascript';
+        let valueCode = value.toString();
+        if (!valueCode.startsWith("function")) valueCode = `${name} = ${valueCode}`;
+        // console.log(value.toString()); // DEBUG
+        code.innerHTML = valueCode; // DEBUG value.toString();
+        pre.appendChild(code);
         container.appendChild(pre);
+        Prism.highlightElement(pre); // syntax highlight
       }
     };
 

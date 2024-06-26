@@ -2,8 +2,8 @@
 title: "Book Unbound"
 ---
 ```js
-import define from "https://api.observablehq.com/@shadoof/inapm2_bookunbound.js?v=3";
+import notebook from "https://api.observablehq.com/@shadoof/inapm2_bookunbound.js?v=3";
 import { getNotebook } from "./components/getNotebook.js";
-getNotebook(define);
+getNotebook(notebook, document.getElementById("notebook-div"));
 ```
 <div id="notebook-div"></div>
