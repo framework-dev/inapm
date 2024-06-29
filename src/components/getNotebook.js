@@ -12,22 +12,45 @@ function getNotebook(notebook, parent) {
 
     inspector.fulfilled = (value) => {  // override fulfilled
 
-      inspector.original(value, name); // do default fulfilled
-
-      // console.log("name, value, type:", name, value, typeof value);
-      if (typeof value === 'function') { // handle functions only
-        const pre = document.createElement("pre");
+      // console.log("type: ", typeof value); // DEBUG
+      let pre, code;
+      if (!(value instanceof Element)) {
+        // if not already an element then create elements for code highlighting
+        pre = document.createElement("pre");
         pre.className = 'language-javascript';
-        const code = document.createElement("code");
+        code = document.createElement("code");
         code.className = 'language-javascript';
+      }
+      // now parse the possibilities
+      if (typeof value === 'function') {
         let valueCode = value.toString();
+        // this allows for => arrow functions
         if (!valueCode.startsWith("function")) valueCode = `${name} = ${valueCode}`;
-        // console.log(value.toString()); // DEBUG
-        code.innerHTML = valueCode; // DEBUG value.toString();
+        code.innerHTML = valueCode;
         pre.appendChild(code);
         container.appendChild(pre);
         Prism.highlightElement(pre); // syntax highlight
+      } else {
+        inspector.original(value, name); //  if not function: do default fulfilled
+        if (!(value instanceof Element)) {
+          if (typeof value === "string" || typeof value === 'number') {
+            code.innerHTML = container.innerHTML;
+            container.innerHTML = "";
+          } else {
+            // for objects, this is best I can do so far
+            // inspector.original() call get Observablehq to render
+            // an inspectable object in the DOM. Here, I add the basic
+            // definition, hightlighted, after what Observable does
+            code.innerHTML = `${name} = ${value.toString()}`;
+            // I cannot yet find a way to highlight
+            // the initially-collapsed 'inspectable' version
+          }
+          pre.appendChild(code);
+          container.appendChild(pre);
+          Prism.highlightElement(pre); // syntax highlight
+        }
       }
+      return inspector;
     };
 
     parent.append(container);
