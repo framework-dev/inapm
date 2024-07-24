@@ -26,7 +26,7 @@ export default {
         { name: "Hypertext", path: "/inapm2_hypertext" },
         { name: "HyperCard", path: "/inapm2_hypercard" },
         { name: "Collocations", path: "/inapm2_collocations" },
-        { name: "Collocations - Live", path: "/inapm2_collocations_a" },
+        { name: "Collocations ƒ", path: "/inapm2_collocations_f" },
         { name: "Book Unbound", path: "/inapm2_bookunbound" },
         // { name: "Book Unbound - Live", path: "/inapm2_bookunbound_a" },
       ]
