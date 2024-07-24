@@ -12,42 +12,43 @@ function getNotebook(notebook, parent) {
 
     inspector.fulfilled = (value) => {  // override fulfilled
 
-      // console.log("type: ", typeof value); // DEBUG
-      let pre, code;
-      if (!(value instanceof Element)) {
-        // if not already an element then create elements for code highlighting
-        pre = document.createElement("pre");
-        pre.className = 'language-javascript';
-        code = document.createElement("code");
-        code.className = 'language-javascript';
-      }
+      // console.log(name, "type: ", typeof value, value); // DEBUG
+      // >>> create elements for code highlighting
+      let pre = document.createElement("pre");
+      pre.className = 'language-javascript';
+      let code = document.createElement("code");
+      code.className = 'language-javascript';
+      pre.appendChild(code);
+      // <<<
       // now parse the possibilities
       if (typeof value === 'function') {
         let valueCode = value.toString();
         // this allows for => arrow functions
         if (!valueCode.startsWith("function")) valueCode = `${name} = ${valueCode}`;
+        // console.log("before ƒ:", valueCode); // DEBUG
+        if (name.startsWith("ƒ")) {
+          let blkIdx = valueCode.indexOf("=>");
+          if (blkIdx > -1) {
+            valueCode = valueCode.substring(blkIdx + 3);
+          } else {
+            blkIdx = valueCode.indexOf("{");
+            // console.log("non-arrow:", valueCode); // DEBUG
+            valueCode = valueCode.substring(blkIdx);
+          }
+          valueCode = name.substring(name.indexOf("ƒ") + 1) + " = " + valueCode;
+        }
         code.innerHTML = valueCode;
-        pre.appendChild(code);
         container.appendChild(pre);
         Prism.highlightElement(pre); // syntax highlight
       } else {
         inspector.original(value, name); //  if not function: do default fulfilled
         if (!(value instanceof Element)) {
-          if (typeof value === "string" || typeof value === 'number') {
+          if (typeof value === "string" || typeof value === 'number' || typeof value === 'boolean') {
             code.innerHTML = container.innerHTML;
             container.innerHTML = "";
-          } else {
-            // for objects, this is best I can do so far
-            // inspector.original() call get Observablehq to render
-            // an inspectable object in the DOM. Here, I add the basic
-            // definition, hightlighted, after what Observable does
-            code.innerHTML = `${name} = ${value.toString()}`;
-            // I cannot yet find a way to highlight
-            // the initially-collapsed 'inspectable' version
+            container.appendChild(pre);
+            Prism.highlightElement(pre);
           }
-          pre.appendChild(code);
-          container.appendChild(pre);
-          Prism.highlightElement(pre); // syntax highlight
         }
       }
       return inspector;
@@ -55,12 +56,11 @@ function getNotebook(notebook, parent) {
 
     parent.append(container);
 
-    // TODO make these configuration options for this code
+    // TODO turn these into configuration options
     // for cells with defined names ...
     if (name) {
       // give them an id attribute (for #links)
       container.id = name;
-      // console.log("name:", name);
       // do not display them if their names start with underscore
       if (name.startsWith("_")) container.style.display = "none";
     }
