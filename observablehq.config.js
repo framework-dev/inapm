@@ -25,6 +25,8 @@ export default {
       pages: [
         { name: "Hypertext", path: "/inapm2_hypertext" },
         { name: "HyperCard", path: "/inapm2_hypercard" },
+        { name: "Indra’s Net", path: "/inapm2_indrasnet" },
+        { name: "Indra’s Net ƒ", path: "/inapm2_indrasnet_f" },
         { name: "Collocations", path: "/inapm2_collocations" },
         { name: "Collocations ƒ", path: "/inapm2_collocations_f" },
         { name: "Book Unbound", path: "/inapm2_bookunbound" },
