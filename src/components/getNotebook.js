@@ -15,7 +15,6 @@ function getNotebook(notebook, parent) {
       // console.log(name, "type: ", typeof value, value); // DEBUG
       // >>> create elements for possible code highlighting
       let pre = document.createElement("pre");
-      pre.className = "language-javascript";
       let code = document.createElement("code");
       code.className = "language-javascript";
       pre.appendChild(code);
@@ -49,7 +48,7 @@ function getNotebook(notebook, parent) {
         code.innerHTML = valueCode;
         container.appendChild(pre);
         // and the code can be highlighted by Prism
-        Prism.highlightElement(pre); // syntax highlight
+        Prism.highlightElement(code); // syntax highlight
       } else {
         // handle literal definitions
         inspector.original(value, name); // do default fulfilled
@@ -58,7 +57,7 @@ function getNotebook(notebook, parent) {
             code.innerHTML = container.innerHTML;
             container.innerHTML = "";
             container.appendChild(pre);
-            Prism.highlightElement(pre);
+            Prism.highlightElement(code);
           }
         }
         // If the value was a (literal) object it would slip through to here.
