@@ -22,8 +22,8 @@ function getNotebook(notebook, parent) {
       // now parse the possibilities
       if (typeof value === "function") {
         let valueCode = value.toString();
-        // the following handles for => arrow functions
-        if (!valueCode.startsWith("function")) valueCode = `${name} = ${valueCode}`;
+        // the following handles for => arrow and aysnc functions
+        if (!valueCode.startsWith("function") && !valueCode.startsWith("async function")) valueCode = `${name} = ${valueCode}`;
         if (name.startsWith("ƒ")) {
           // This code relies on a naming convention that allows the exposure of
           // named cell definitions which are code blocks or expressions.
