@@ -1,5 +1,5 @@
-import Prism from 'https://cdn.jsdelivr.net/npm/prism-es6@1.2.0/prism.min.js'
 import { Runtime, Inspector } from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
+import hljs from 'npm:highlightjs';
 
 function getNotebook(notebook, parent) {
   parent.replaceChildren();
@@ -45,19 +45,22 @@ function getNotebook(notebook, parent) {
         }
         // now both notebook cells that were either 1) already function definitions
         // or 2) named cell code block/expression definitions are properly formatted
-        code.innerHTML = valueCode;
+        code.innerHTML = escapeHtml(valueCode);
         container.appendChild(pre);
-        // and the code can be highlighted by Prism
-        Prism.highlightElement(code); // syntax highlight
+        // if highlighted by Prism (would need js import and css)
+        // Prism.highlightElement(code);
+        hljs.highlightBlock(code);
       } else {
         // handle literal definitions
         inspector.original(value, name); // do default fulfilled
         if (!(value instanceof Element)) {
           if (["string", "number", "boolean", "bigint", "undefined", "null", "symbol"].includes(typeof value)) {
-            code.innerHTML = container.innerHTML;
-            container.innerHTML = "";
+            code.innerHTML = escapeHtml(container.innerText);
+            container.innerText = "";
             container.appendChild(pre);
-            Prism.highlightElement(code);
+            // if highlighted by Prism (would need js import and css)
+            // Prism.highlightElement(code);
+            hljs.highlightBlock(code);
           }
         }
         // If the value was a (literal) object it would slip through to here.
@@ -84,5 +87,14 @@ function getNotebook(notebook, parent) {
 
     return inspector;
   });
+
+  function escapeHtml(unsafe) {
+    return unsafe
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
 }
 export { getNotebook }
