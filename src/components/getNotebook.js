@@ -14,10 +14,21 @@ function getNotebook(notebook, parent) {
 
       // console.log(name, "type: ", typeof value, value); // DEBUG
       // >>> create elements for possible code highlighting
+      let obsPre = document.createElement("div");
+      obsPre.className = "observablehq-pre-container";
+      // obsPre.setAttribute("data-language", "js");
+      let button = document.createElement("button");
+      button.innerHTML = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6C2 5.44772 2.44772 5 3 5H10C10.5523 5 11 5.44772 11 6V13C11 13.5523 10.5523 14 10 14H3C2.44772 14 2 13.5523 2 13V6Z M4 2.00004L12 2.00001C13.1046 2 14 2.89544 14 4.00001V12"></path></svg>`;
+      button.title = "Copy code";
+      button.className = "observablehq-pre-copy";
       let pre = document.createElement("pre");
       let code = document.createElement("code");
-      code.className = "language-javascript";
+      code.className = "language-js";
+      pre.setAttribute("data-language", "js");
       pre.appendChild(code);
+      obsPre.appendChild(button);
+      button.onclick = async (e) => await navigator.clipboard.writeText(e.target.parentElement.parentElement.querySelector("code").innerText);
+      obsPre.appendChild(pre);
       // <<<
       // now parse the possibilities
       if (typeof value === "function") {
@@ -46,10 +57,11 @@ function getNotebook(notebook, parent) {
         // now both notebook cells that were either 1) already function definitions
         // or 2) named cell code block/expression definitions are properly formatted
         code.innerHTML = escapeHtml(valueCode);
-        container.appendChild(pre);
+        container.appendChild(obsPre);
         // if highlighted by Prism (would need js import and css)
         // Prism.highlightElement(code);
         hljs.highlightBlock(code);
+        console.log(button.parentElement.innerText);
       } else {
         // handle literal definitions
         inspector.original(value, name); // do default fulfilled
@@ -57,7 +69,7 @@ function getNotebook(notebook, parent) {
           if (["string", "number", "boolean", "bigint", "undefined", "null", "symbol"].includes(typeof value)) {
             code.innerHTML = escapeHtml(container.innerText);
             container.innerText = "";
-            container.appendChild(pre);
+            container.appendChild(obsPre);
             // if highlighted by Prism (would need js import and css)
             // Prism.highlightElement(code);
             hljs.highlightBlock(code);
