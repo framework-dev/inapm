@@ -109,4 +109,14 @@ function getNotebook(notebook, parent) {
       .replace(/'/g, "&#039;");
   }
 }
-export { getNotebook }
+const hashLinkLoader = setInterval(() => {
+  let id = window.location.hash.substring(1);
+  if (!id) {
+    clearInterval(hashLinkLoader);
+  }
+  else if (document.getElementById(id)) {
+    document.getElementById(id).scrollIntoView();
+    clearInterval(hashLinkLoader);
+  }
+}, 100);
+export { getNotebook, hashLinkLoader }
