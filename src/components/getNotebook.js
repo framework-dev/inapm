@@ -61,7 +61,7 @@ function getNotebook(notebook, parent) {
         // if highlighted by Prism (would need js import and css)
         // Prism.highlightElement(code);
         hljs.highlightBlock(code);
-        console.log(button.parentElement.innerText);
+        // console.log(button.parentElement.innerText);
       } else {
         // handle literal definitions
         inspector.original(value, name); // do default fulfilled
@@ -99,7 +99,7 @@ function getNotebook(notebook, parent) {
 
     return inspector;
   });
-
+  //
   function escapeHtml(unsafe) {
     return unsafe
       .replace(/&/g, "&amp;")
@@ -108,15 +108,16 @@ function getNotebook(notebook, parent) {
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
   }
+  //
+  let hashLinkChecks = 0, checksLimit = 2;
+  const hashLinkLoader = setInterval(() => {
+    let div = document.getElementById(window.location.hash.substring(1));
+    if (div) {
+      div.scrollIntoView();
+      clearInterval(hashLinkLoader);
+    }
+    if (++hashLinkChecks >= checksLimit && !div) clearInterval(hashLinkLoader);
+    // console.log("hashLinkChecks:", hashLinkChecks); // DEBUG
+  }, 100);
 }
-const hashLinkLoader = setInterval(() => {
-  let id = window.location.hash.substring(1);
-  if (!id) {
-    clearInterval(hashLinkLoader);
-  }
-  else if (document.getElementById(id)) {
-    document.getElementById(id).scrollIntoView();
-    clearInterval(hashLinkLoader);
-  }
-}, 100);
-export { getNotebook, hashLinkLoader }
+export { getNotebook };
