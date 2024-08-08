@@ -25,6 +25,11 @@ export default {
       pages: [
         { name: "Hypertext", path: "/inapm2_hypertext" },
         { name: "HyperCard", path: "/inapm2_hypercard" },
+      ]
+    },
+    {
+      name: "Early Works in HyperCard",
+      pages: [
         { name: "Indra’s Net", path: "/inapm2_indrasnet" },
         { name: "Indra’s Net ƒ", path: "/inapm2_indrasnet_f" },
         { name: "Collocations", path: "/inapm2_collocations" },
