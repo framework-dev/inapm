@@ -30,7 +30,7 @@ export default {
         { name: "Collocations", path: "/inapm2_collocations" },
         { name: "Collocations ƒ", path: "/inapm2_collocations_f" },
         { name: "Book Unbound", path: "/inapm2_bookunbound" },
-        // { name: "Book Unbound ƒ", path: "/inapm2_bookunbound_f" },
+        { name: "Book Unbound ƒ", path: "/inapm2_bookunbound_f" },
       ]
     },
     {
