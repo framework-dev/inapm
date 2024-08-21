@@ -109,15 +109,17 @@ function getNotebook(notebook, parent) {
       .replace(/'/g, "&#039;");
   }
   //
-  let hashLinkChecks = 0, checksLimit = 2;
-  const hashLinkLoader = setInterval(() => {
+  let hashLinkChecks = 0;
+  const hashLinkLoader = setInterval((checksLimit = 2) => {
     let div = document.getElementById(window.location.hash.substring(1));
     if (div) {
       div.scrollIntoView();
       clearInterval(hashLinkLoader);
     }
-    if (++hashLinkChecks >= checksLimit && !div) clearInterval(hashLinkLoader);
-    // console.log("hashLinkChecks:", hashLinkChecks); // DEBUG
+    if (++hashLinkChecks >= checksLimit && !div) {
+      console.log("check #", hashLinkChecks);
+      clearInterval(hashLinkLoader);
+    }
   }, 100);
 }
 export { getNotebook };
